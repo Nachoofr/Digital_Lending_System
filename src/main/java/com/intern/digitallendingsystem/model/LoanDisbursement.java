@@ -10,7 +10,7 @@ import java.util.Date;
 public class LoanDisbursement {//once approved loan can be disbursed
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @OneToOne
