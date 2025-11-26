@@ -6,12 +6,14 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-public class LoanProducts {
+public class LoanProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private long id;
+
+
 
     private long bankId;
 

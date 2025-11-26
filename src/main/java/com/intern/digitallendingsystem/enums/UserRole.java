@@ -1,6 +1,6 @@
 package com.intern.digitallendingsystem.enums;
 
-public enum UserRoles {
+public enum UserRole {
     BANK_ADMIN,
     BANK_USER
 }

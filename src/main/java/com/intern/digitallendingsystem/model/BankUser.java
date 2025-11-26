@@ -1,11 +1,11 @@
 package com.intern.digitallendingsystem.model;
 
-import com.intern.digitallendingsystem.enums.UserRoles;
+import com.intern.digitallendingsystem.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 @Entity
-public class BankUsers {
+public class BankUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,7 @@ public class BankUsers {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserRoles role;
+    private UserRole role;
 
     @NotNull
     @Column(nullable = false)

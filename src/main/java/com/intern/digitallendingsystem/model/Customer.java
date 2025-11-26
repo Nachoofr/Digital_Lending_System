@@ -6,7 +6,7 @@ import jakarta.validation.constraints.*;
 import java.util.Date;
 
 @Entity
-public class Customers {
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

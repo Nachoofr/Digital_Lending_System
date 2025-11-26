@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-public class LoanDisbursements {//once approved loan can be disbursed
+public class LoanDisbursement {//once approved loan can be disbursed
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,35 +1,39 @@
 package com.intern.digitallendingsystem.model;
 
-import com.intern.digitallendingsystem.enums.LoanRepaymentMethod;
+import com.intern.digitallendingsystem.enums.LoanStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
 @Entity
-public class LoanRepayments {
+public class LoanApplication {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private long loanApplicationId;
+    private long bankId;
+
+
+    private long loanProductId;
 
     @NotNull
     @Column(nullable = false)
-    private Date paymentDate;
+    private double requestedAmount;
 
-    @NotNull
-    @Column(nullable = false)
-    private double amountPaid;
-
-
-    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private LoanRepaymentMethod paymentMethod;
+    private LoanStatus status;
 
     @NotNull
     @Column(nullable = false)
-    private long referenceNumber;
+    private Date applicationDate;
+
+    @NotNull
+    @Column(nullable = false)
+    private double approvedAmount;
+
+    private String remarks;
+
+
 }
