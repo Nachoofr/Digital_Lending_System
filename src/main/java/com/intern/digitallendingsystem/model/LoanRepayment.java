@@ -13,7 +13,9 @@ public class LoanRepayment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private long loanApplicationId;
+    @OneToOne
+    @JoinColumn(name = "loanApplication_id", nullable = false)
+    LoanApplication loanApplicationId;
 
     @NotNull
     @Column(nullable = false)

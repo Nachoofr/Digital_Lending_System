@@ -13,10 +13,13 @@ public class LoanApplication {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private long bankId;
+    @OneToOne
+    @JoinColumn(name = "bank_id", nullable = false)
+    Bank bankId;
 
-
-    private long loanProductId;
+    @OneToOne
+    @JoinColumn(name = "loanProduct_id", nullable = false)
+    LoanProduct loanProductId;
 
     @NotNull
     @Column(nullable = false)

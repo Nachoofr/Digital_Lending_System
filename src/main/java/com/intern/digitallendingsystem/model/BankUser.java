@@ -3,6 +3,7 @@ package com.intern.digitallendingsystem.model;
 import com.intern.digitallendingsystem.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 
 @Entity
 public class BankUser {
@@ -11,8 +12,9 @@ public class BankUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-
-    private long bankId;
+    @ManyToOne
+    @JoinColumn(name = "bank_id", nullable = false)
+    Bank bankId;
 
     @NotBlank
     @Size(min = 2, message = "name must contain at least 2 characters")

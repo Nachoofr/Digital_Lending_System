@@ -14,8 +14,9 @@ public class LoanProduct {
     private long id;
 
 
-
-    private long bankId;
+    @OneToOne
+    @JoinColumn(name = "bank_id", nullable = false)
+    Bank bankId;
 
     @NotBlank
     @Size(min = 3, message = "name must contain at least 3 characters")
