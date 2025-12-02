@@ -37,7 +37,10 @@ public class BankServiceImpl implements  BankService {
     }
 
     public BankDto updateBank(long id, BankDto bankDto) {
-        var bank = bankRepo.findById(id).orElse(null);
+        if (!bankRepo.existsById(id)) {
+            return null;
+        }
+        var bank = bankRepo.findByIdAndIsActiveTrue(id);
         bankMapper.update(bankDto, bank);
         bankRepo.save(bank);
         bank.setActive(true);
@@ -45,7 +48,7 @@ public class BankServiceImpl implements  BankService {
     }
 
     public boolean deleteBank(long id) {
-        var bank = bankRepo.findById(id).orElse(null);
+        var bank = bankRepo.findByIdAndIsActiveTrue(id);
         if (bank == null) {
             return false;
         }

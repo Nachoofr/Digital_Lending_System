@@ -52,8 +52,8 @@ public class BankController {
 
     @DeleteMapping("/api/banks/{id}")
     public ResponseEntity<Void> deleteBank(@PathVariable long id) {
-        boolean bank = bankService.deleteBank(id);
-        if (!bank) {
+        var bank = bankService.deleteBank(id);
+        if (bank == false) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(HttpStatus.OK);

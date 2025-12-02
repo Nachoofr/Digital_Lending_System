@@ -10,4 +10,5 @@ public interface BankService {
     BankDto getBankById(long id);
     BankDto updateBank(long id, BankDto bankDto);
     boolean deleteBank(long id);
+
 }
