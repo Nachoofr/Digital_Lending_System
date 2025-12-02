@@ -24,7 +24,7 @@ public class BankUserServiceImpl implements BankUserService {
     }
 
     public List<BankUserDto> getAllBankUsers(String sort) {
-        return bankUserRepo.findAllByIsActiveTrue(Sort.by(sort))
+        return bankUserRepo.findAllByIsActiveTrueAndBankIdIsActiveTrue(Sort.by(sort))
                 .stream()
                 .map(bankUserMapper::toDto)
                 .toList();
@@ -34,7 +34,7 @@ public class BankUserServiceImpl implements BankUserService {
         if (!bankUserRepo.existsById(id)) {
             return null;
         }
-        var bankUser = bankUserRepo.findByIdAndIsActiveTrue(id);
+        var bankUser = bankUserRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
         return bankUserMapper.toDto(bankUser);
 
     }
@@ -43,7 +43,7 @@ public class BankUserServiceImpl implements BankUserService {
         if (!bankUserRepo.existsById(id)) {
             return null;
         }
-        var bankUser = bankUserRepo.findByIdAndIsActiveTrue(id);
+        var bankUser = bankUserRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
         bankUserMapper.update(bankUserDto, bankUser);
         bankUser.setActive(true);
         bankUserRepo.save(bankUser);
@@ -51,7 +51,7 @@ public class BankUserServiceImpl implements BankUserService {
     }
 
     public Boolean deleteBankUser(long id) {
-        var bankUser = bankUserRepo.findByIdAndIsActiveTrue(id);
+        var bankUser = bankUserRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
         if (bankUser == null) {
             return false;
         }

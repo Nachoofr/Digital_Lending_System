@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface BankUserRepo extends JpaRepository<BankUser, Long> {
-    BankUser findByIdAndIsActiveTrue(long id);
-    List<BankUser> findAllByIsActiveTrue(Sort sort);
+    BankUser findByIdAndIsActiveTrueAndBankIdIsActiveTrue(long id);
+    List<BankUser> findAllByIsActiveTrueAndBankIdIsActiveTrue(Sort sort);
 }
+
