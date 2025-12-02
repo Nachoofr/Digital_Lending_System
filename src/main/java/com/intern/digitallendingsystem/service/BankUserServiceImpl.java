@@ -24,7 +24,8 @@ public class BankUserServiceImpl implements BankUserService {
     }
 
     public List<BankUserDto> getAllBankUsers(String sort) {
-        return bankUserRepo.findAllByIsActiveTrueAndBankIdIsActiveTrue(Sort.by(sort))
+        Sort sorting = (sort == null || sort.isBlank()) ? Sort.unsorted() : Sort.by(sort);
+        return bankUserRepo.findAllByIsActiveTrueAndBankIdIsActiveTrue(sorting)
                 .stream()
                 .map(bankUserMapper::toDto)
                 .toList();

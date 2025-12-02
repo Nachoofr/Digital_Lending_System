@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 @Entity
+@Data
 public class LoanProduct {
 
     @Id
@@ -30,7 +32,7 @@ public class LoanProduct {
 
     @NotNull
     @Column(nullable = false)
-    private long interestRate;
+    private double interestRate;
 
     @NotNull
     @Column(nullable = false)
