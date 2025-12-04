@@ -30,5 +30,35 @@ public class LoanProductServiceImpl implements LoanProductService {
                 .toList();
     }
 
+    public LoanProductDto getLoanProductById(long id ){
+        var loanProduct = loanProductRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
+        if (loanProduct == null){
+            return  null;
+        }
+        return loanProductMapper.toDto(loanProduct);
+    }
+
+    public LoanProductDto updateLoanProduct(long id, LoanProductDto loanProductDto) {
+        if (!loanProductRepo.existsById(id)) {
+            return null;
+        }
+        var loanProduct = loanProductRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
+        loanProduct.setActive(true);
+        loanProductMapper.update(loanProductDto, loanProduct);
+        loanProductRepo.save(loanProduct);
+        return loanProductMapper.toDto(loanProduct);
+    }
+
+    public boolean deleteLoanProduct(long id) {
+        var loanProduct = loanProductRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
+        if (loanProduct == null){
+            return false;
+        }
+        loanProduct.setActive(false);
+        loanProductRepo.save(loanProduct);
+        return true;
+    }
+
+
 
 }

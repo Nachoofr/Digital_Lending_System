@@ -11,4 +11,7 @@ import java.util.List;
 @Repository
 public interface LoanProductRepo extends JpaRepository<LoanProduct, Long> {
     List<LoanProduct> findAllByIsActiveTrueAndBankIdIsActiveTrue(Sort sort);
+
+
+    LoanProduct findByIdAndIsActiveTrueAndBankIdIsActiveTrue(long id);
 }
