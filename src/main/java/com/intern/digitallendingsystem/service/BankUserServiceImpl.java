@@ -5,6 +5,8 @@ import com.intern.digitallendingsystem.mapper.BankUserMapper;
 import com.intern.digitallendingsystem.repository.BankUserRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,11 +18,11 @@ public class BankUserServiceImpl implements BankUserService {
     private BankUserMapper bankUserMapper;
     private BankUserRepo bankUserRepo;
 
-    public BankUserDto createBankUser(BankUserDto bankUserDto) {
+    public ResponseEntity<BankUserDto> createBankUser(BankUserDto bankUserDto) {
         var bankUser = bankUserMapper.toEntity(bankUserDto);
         bankUser.setActive(true);
         bankUserRepo.save(bankUser);
-        return bankUserMapper.toDto(bankUser);
+        return new ResponseEntity<>(bankUserMapper.toDto(bankUser), HttpStatus.CREATED);
     }
 
     public List<BankUserDto> getAllBankUsers(String sort) {
@@ -31,34 +33,34 @@ public class BankUserServiceImpl implements BankUserService {
                 .toList();
     }
 
-    public BankUserDto getBankUserById(long id){
-        if (!bankUserRepo.existsById(id)) {
-            return null;
+    public ResponseEntity<BankUserDto> getBankUserById(long id){
+        if (bankUserRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id) == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         var bankUser = bankUserRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
-        return bankUserMapper.toDto(bankUser);
+        return new ResponseEntity<>(bankUserMapper.toDto(bankUser), HttpStatus.OK);
 
     }
 
-    public BankUserDto updateBankUser(long id, BankUserDto bankUserDto) {
-        if (!bankUserRepo.existsById(id)) {
-            return null;
+    public ResponseEntity<BankUserDto> updateBankUser(long id, BankUserDto bankUserDto) {
+        if (bankUserRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id) == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         var bankUser = bankUserRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
         bankUserMapper.update(bankUserDto, bankUser);
         bankUser.setActive(true);
         bankUserRepo.save(bankUser);
-        return bankUserMapper.toDto(bankUser);
+        return new ResponseEntity<>(bankUserMapper.toDto(bankUser), HttpStatus.OK);
     }
 
-    public Boolean deleteBankUser(long id) {
+    public ResponseEntity<Void> deleteBankUser(long id) {
         var bankUser = bankUserRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
         if (bankUser == null) {
-            return false;
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         bankUser.setActive(false);
         bankUserRepo.save(bankUser);
-        return true;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

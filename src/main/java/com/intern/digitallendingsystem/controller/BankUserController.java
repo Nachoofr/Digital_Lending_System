@@ -17,24 +17,19 @@ public class BankUserController {
 
     @PostMapping("api/bankUsers")
     public ResponseEntity<BankUserDto> createBankUser(@RequestBody BankUserDto bankUserDto) {
-        BankUserDto bankUser = bankUserService.createBankUser(bankUserDto);
-        return new ResponseEntity<BankUserDto>(bankUser, HttpStatus.CREATED);
+        return (bankUserService.createBankUser(bankUserDto));
     }
 
     @GetMapping("api/bankUsers")
     public ResponseEntity<List<BankUserDto>> getAllBanks(
             @RequestParam(required = false, defaultValue = "", name = "sort") String sort
     ) {
-        return new ResponseEntity<List<BankUserDto>>(bankUserService.getAllBankUsers(sort), HttpStatus.OK);
+        return new ResponseEntity<>(bankUserService.getAllBankUsers(sort), HttpStatus.OK);
     }
 
     @GetMapping("api/bankUsers/{id}")
     public ResponseEntity<BankUserDto> getBankUser(@PathVariable long id) {
-        var bankUser = bankUserService.getBankUserById(id);
-        if (bankUser == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<BankUserDto>(bankUser, HttpStatus.OK);
+        return (bankUserService.getBankUserById(id));
     }
 
     @PutMapping("api/bankUsers/{id}")
@@ -42,21 +37,14 @@ public class BankUserController {
             @PathVariable long id,
             @RequestBody BankUserDto bankUserDto
     ){
-        var bankUser = bankUserService.updateBankUser(id, bankUserDto);
-        if (bankUser == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<BankUserDto>(bankUser, HttpStatus.OK);
+        return bankUserService.updateBankUser(id, bankUserDto);
     }
 
     @DeleteMapping("api/bankUsers/{id}")
     public ResponseEntity<Void> deleteBankUser(@PathVariable long id) {
-        var bankUser = bankUserService.deleteBankUser(id);
-        if (bankUser == false){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-            return new ResponseEntity<>(HttpStatus.OK);
+        return bankUserService.deleteBankUser(id);
     }
+
 
 
 }

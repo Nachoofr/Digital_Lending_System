@@ -5,6 +5,8 @@ import com.intern.digitallendingsystem.mapper.CustomerMapper;
 import com.intern.digitallendingsystem.repository.CustomerRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,11 +19,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     // todo
     // implement proper logging using SL4J
-    public CustomerDto createCustomer(CustomerDto customerDto) {
+    public ResponseEntity<CustomerDto> createCustomer(CustomerDto customerDto) {
         var customer = customerMapper.toEntity(customerDto);
         customer.setActive(true);
         customerRepo.save(customer);
-        return customerMapper.toDto(customer);
+        return new ResponseEntity<>(customerMapper.toDto(customer), HttpStatus.CREATED);
     }
 
     public List<CustomerDto> getAllCustomers(String sort) {
@@ -32,33 +34,33 @@ public class CustomerServiceImpl implements CustomerService {
                 .toList();
     }
 
-    public CustomerDto getCustomerById(long id) {
+    public ResponseEntity<CustomerDto> getCustomerById(long id) {
         var customer = customerRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
         if (customer == null) {
-            return null;
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return customerMapper.toDto(customer);
+        return new ResponseEntity<>(customerMapper.toDto(customer), HttpStatus.OK);
     }
 
-    public CustomerDto updateCustomer(long id, CustomerDto customerDto) {
+    public ResponseEntity<CustomerDto> updateCustomer(long id, CustomerDto customerDto) {
         var customer = customerRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
         if (customer == null) {
-            return null;
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         customerMapper.update(customerDto, customer);
         customer.setActive(true);
         customerRepo.save(customer);
-        return customerMapper.toDto(customer);
+        return new ResponseEntity<>(customerMapper.toDto(customer), HttpStatus.OK);
     }
 
-    public boolean deleteCustomer(long id) {
+    public ResponseEntity<Void> deleteCustomer(long id) {
         var customer = customerRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
         if (customer == null) {
-            return false;
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         customer.setActive(false);
         customerRepo.save(customer);
-        return true;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
