@@ -5,12 +5,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import java.util.Date;
-
 @Entity
 @Data
-public class LoanApplication {
-
+public class CustomerBankAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -23,26 +20,11 @@ public class LoanApplication {
     @JoinColumn(name = "customer_id", nullable = false)
     Customer customerId;
 
-    @OneToOne
-    @JoinColumn(name = "loanProduct_id", nullable = false)
-    LoanProduct loanProductId;
-
     @NotNull
     @Column(nullable = false)
-    private double requestedAmount;
+    private double balance;
 
     @Enumerated(EnumType.STRING)
     private LoanStatus status;
-
-    @NotNull
-    @Column(nullable = false)
-    private Date applicationDate;
-
-    @NotNull
-    @Column(nullable = false)
-    private double approvedAmount;
-
-    private String remarks;
-
 
 }
