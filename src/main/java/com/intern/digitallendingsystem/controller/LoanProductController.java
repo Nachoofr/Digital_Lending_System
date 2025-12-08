@@ -19,6 +19,7 @@ public class LoanProductController {
         return loanProductService.createLoanProduct(loanProductDto);
     }
 
+
     @GetMapping("api/loan-products")
     public ResponseEntity<List<LoanProductDto>> getLoanProduct(
             @RequestParam(required = false, defaultValue = "", name="sort")String sort
@@ -29,6 +30,9 @@ public class LoanProductController {
     @GetMapping("api/loan-products/{id}")
     public ResponseEntity<LoanProductDto> getLoanProductById(@PathVariable long id){
         var loanProduct = loanProductService.getLoanProductById(id);
+
+        //todo
+        // write such below logic inside service layer
         if(loanProduct == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -41,6 +45,9 @@ public class LoanProductController {
             @RequestBody LoanProductDto loanProductDto
     ){
         var laonProduct = loanProductService.updateLoanProduct(id, loanProductDto);
+
+        //todo
+        // write such below logic inside service layer
         if(laonProduct == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -50,6 +57,9 @@ public class LoanProductController {
     @DeleteMapping("api/loan-products/{id}")
     public ResponseEntity<Void> deleteLoanProduct(@PathVariable long id){
         var loanProduct = loanProductService.deleteLoanProduct(id);
+
+        //todo
+        // write such below logic inside service layer
         if (loanProduct == false){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

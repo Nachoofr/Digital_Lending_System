@@ -46,6 +46,9 @@ public class LoanApplicationController {
         if (loanApplication == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        //todo
+        // ..make constants for Status strings
         if(loanApplication.getStatus().toString().equals("APPROVED")){
             return new ResponseEntity<>(loanApplication, HttpStatus.OK);
         }

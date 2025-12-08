@@ -15,6 +15,8 @@ public class LoanProductServiceImpl implements LoanProductService {
     LoanProductRepo loanProductRepo;
     LoanProductMapper loanProductMapper;
 
+    // todo
+    // implement proper logging using SL4J
     public LoanProductDto createLoanProduct(LoanProductDto loanProductDto){
         var loanProduct = loanProductMapper.toEntity(loanProductDto);
         loanProduct.setActive(true);

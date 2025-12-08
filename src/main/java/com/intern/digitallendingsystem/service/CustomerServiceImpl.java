@@ -15,6 +15,8 @@ public class CustomerServiceImpl implements CustomerService {
     CustomerRepo customerRepo;
     CustomerMapper customerMapper;
 
+    // todo
+    // implement proper logging using SL4J
     public CustomerDto createCustomer(CustomerDto customerDto) {
         var customer = customerMapper.toEntity(customerDto);
         customer.setActive(true);
@@ -30,10 +32,10 @@ public class CustomerServiceImpl implements CustomerService {
                 .toList();
     }
 
-    public CustomerDto getCustomerById(long id){
+    public CustomerDto getCustomerById(long id) {
         var customer = customerRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
-        if (customer == null){
-            return  null;
+        if (customer == null) {
+            return null;
         }
         return customerMapper.toDto(customer);
     }
@@ -49,9 +51,9 @@ public class CustomerServiceImpl implements CustomerService {
         return customerMapper.toDto(customer);
     }
 
-    public boolean deleteCustomer(long id){
+    public boolean deleteCustomer(long id) {
         var customer = customerRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
-        if (customer == null){
+        if (customer == null) {
             return false;
         }
         customer.setActive(false);

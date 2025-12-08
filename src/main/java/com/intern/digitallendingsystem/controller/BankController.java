@@ -20,6 +20,7 @@ public class BankController {
     @PostMapping("/api/banks")
     public ResponseEntity<BankDto> createBank(@RequestBody BankDto bankDto) {
         bankService.createBank(bankDto);
+        //no need to add Class inside <>
         return new ResponseEntity<BankDto>(bankDto, HttpStatus.CREATED);
     }
 
@@ -32,6 +33,8 @@ public class BankController {
     @GetMapping("/api/banks/{id}")
     public ResponseEntity<BankDto> getBankById(@PathVariable long id) {
         BankDto bankDto = bankService.getBankById(id);
+        //todo
+        // write such below logic inside service layer
         if (bankDto == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -44,6 +47,8 @@ public class BankController {
             @RequestBody BankDto bankDto
     ) {
         BankDto bank = bankService.updateBank(id, bankDto);
+        //todo
+        // write such below logic inside service layer
         if (bank == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -53,6 +58,8 @@ public class BankController {
     @DeleteMapping("/api/banks/{id}")
     public ResponseEntity<Void> deleteBank(@PathVariable long id) {
         var bank = bankService.deleteBank(id);
+        //todo
+        // write such below logic inside service layer
         if (bank == false) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -1,10 +1,8 @@
 package com.intern.digitallendingsystem.service;
 
 import com.intern.digitallendingsystem.dto.LoanApplicationDto;
-import com.intern.digitallendingsystem.dto.LoanProductDto;
 import com.intern.digitallendingsystem.enums.LoanStatus;
 import com.intern.digitallendingsystem.mapper.LoanApplicationMapper;
-import com.intern.digitallendingsystem.model.LoanApplication;
 import com.intern.digitallendingsystem.repository.LoanApplicationRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +15,8 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
     LoanApplicationRepo loanApplicationRepo;
     LoanApplicationMapper loanApplicationMapper;
 
+    //todo
+    //implement proper logging using SL4J
     public LoanApplicationDto createLoanApplication(LoanApplicationDto LoanApplicationDto){
         var loanApplication = loanApplicationMapper.toEntity(LoanApplicationDto);
         loanApplication.setStatus(LoanStatus.PENDING);
