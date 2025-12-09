@@ -15,7 +15,7 @@ public class LoanProductController {
     LoanProductService loanProductService;
 
     @PostMapping("api/loan-products")
-    public LoanProductDto createLoanProduct(@RequestBody LoanProductDto loanProductDto){
+    public ResponseEntity<LoanProductDto> createLoanProduct(@RequestBody LoanProductDto loanProductDto){
         return loanProductService.createLoanProduct(loanProductDto);
     }
 
@@ -29,14 +29,7 @@ public class LoanProductController {
 
     @GetMapping("api/loan-products/{id}")
     public ResponseEntity<LoanProductDto> getLoanProductById(@PathVariable long id){
-        var loanProduct = loanProductService.getLoanProductById(id);
-
-        //todo
-        // write such below logic inside service layer
-        if(loanProduct == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<LoanProductDto>(loanProduct, HttpStatus.OK);
+        return loanProductService.getLoanProductById(id);
     }
 
     @PutMapping("api/loan-products/{id}")
@@ -44,26 +37,12 @@ public class LoanProductController {
             @PathVariable long id,
             @RequestBody LoanProductDto loanProductDto
     ){
-        var laonProduct = loanProductService.updateLoanProduct(id, loanProductDto);
-
-        //todo
-        // write such below logic inside service layer
-        if(laonProduct == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<LoanProductDto>(laonProduct, HttpStatus.OK);
+       return loanProductService.updateLoanProduct(id, loanProductDto);
     }
 
     @DeleteMapping("api/loan-products/{id}")
     public ResponseEntity<Void> deleteLoanProduct(@PathVariable long id){
-        var loanProduct = loanProductService.deleteLoanProduct(id);
-
-        //todo
-        // write such below logic inside service layer
-        if (loanProduct == false){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return loanProductService.deleteLoanProduct(id);
     }
 
 }

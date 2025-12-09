@@ -1,13 +1,14 @@
 package com.intern.digitallendingsystem.service;
 
 import com.intern.digitallendingsystem.dto.LoanProductDto;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface LoanProductService {
-    public LoanProductDto createLoanProduct(LoanProductDto loanProductDto);
-    public List<LoanProductDto> getAllLoanProducts(String sort);
-    public LoanProductDto getLoanProductById(long id );
-    public LoanProductDto updateLoanProduct(long id, LoanProductDto loanProductDto);
-    public boolean deleteLoanProduct(long id);
+    ResponseEntity<LoanProductDto> createLoanProduct(LoanProductDto loanProductDto);
+    List<LoanProductDto> getAllLoanProducts(String sort);
+    ResponseEntity<LoanProductDto> getLoanProductById(long id );
+    ResponseEntity<LoanProductDto> updateLoanProduct(long id, LoanProductDto loanProductDto);
+    ResponseEntity<Void> deleteLoanProduct(long id);
 }
