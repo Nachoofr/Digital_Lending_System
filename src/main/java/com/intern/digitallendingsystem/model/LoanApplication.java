@@ -27,6 +27,10 @@ public class LoanApplication {
     @JoinColumn(name = "loanProduct_id", nullable = false)
     LoanProduct loanProductId;
 
+    @OneToOne
+    @JoinColumn(name = "customerBankAccount_id")
+    private CustomerBankAccount customerBankAccount;
+
     @NotNull
     @Column(nullable = false)
     private double requestedAmount;

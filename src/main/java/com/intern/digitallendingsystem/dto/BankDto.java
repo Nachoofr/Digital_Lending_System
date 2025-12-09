@@ -14,7 +14,7 @@ public class BankDto {
 
 //    private long id;
     private String name;
-    private int code;
+    private Integer code;
     private String address;
     @JsonIgnore
     private Boolean isActive;

@@ -13,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerDto {
-    private long bankId;
+    private Long bankId;
     private String fullName;
     private String email;
     private String phone;

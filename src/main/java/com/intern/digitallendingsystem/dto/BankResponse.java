@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BankResponse {
-    private long id;
+    private Long id;
     private String name;
-    private int code;
+    private Integer code;
     private String address;
-    private boolean isActive;
+    private Boolean isActive;
 }

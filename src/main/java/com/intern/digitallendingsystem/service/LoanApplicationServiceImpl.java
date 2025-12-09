@@ -3,6 +3,7 @@ package com.intern.digitallendingsystem.service;
 import com.intern.digitallendingsystem.dto.LoanApplicationDto;
 import com.intern.digitallendingsystem.enums.LoanStatus;
 import com.intern.digitallendingsystem.mapper.LoanApplicationMapper;
+import com.intern.digitallendingsystem.repository.CustomerRepo;
 import com.intern.digitallendingsystem.repository.LoanApplicationRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -17,12 +18,15 @@ import java.util.List;
 public class LoanApplicationServiceImpl implements LoanApplicationService {
     LoanApplicationRepo loanApplicationRepo;
     LoanApplicationMapper loanApplicationMapper;
+    CustomerRepo customerRepo;
 
     //todo
     //implement proper logging using SL4J
     public ResponseEntity<LoanApplicationDto> createLoanApplication(LoanApplicationDto LoanApplicationDto){
         var loanApplication = loanApplicationMapper.toEntity(LoanApplicationDto);
+        var customer =customerRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(LoanApplicationDto.getCustomerId());
         loanApplication.setStatus(LoanStatus.PENDING);
+        loanApplication.setBankId(customer.getBankId());
         loanApplicationRepo.save(loanApplication);
         return new ResponseEntity<>(loanApplicationMapper.toDto(loanApplication), HttpStatus.OK);
     }

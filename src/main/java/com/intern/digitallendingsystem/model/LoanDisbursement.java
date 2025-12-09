@@ -3,10 +3,12 @@ package com.intern.digitallendingsystem.model;
 import com.intern.digitallendingsystem.enums.DisbursementChannel;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 import java.util.Date;
 
 @Entity
+@Data
 public class LoanDisbursement {//once approved loan can be disbursed
 
     @Id

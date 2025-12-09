@@ -11,15 +11,15 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoanApplicationDto {
-    private long bankId;
-    private long loanProductId;
-    private long customerId;
-    private double requestedAmount;
+    private Long bankId;
+    private Long loanProductId;
+    private Long customerId;
+    private Double requestedAmount;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String status;
 
     private Date applicationDate;
-    private double approvedAmount;
+    private Double approvedAmount;
     private String remarks;
 }

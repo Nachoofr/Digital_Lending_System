@@ -5,10 +5,10 @@ import lombok.Data;
 
 @Data
 public class CustomerBankAccountDto {
-    private long bankId;
-    private long customerId;
-    private double balance;
+    private Long bankId;
+    private Long customerId;
+    private Double balance;
 
     @JsonIgnore
-    private boolean isActive;
+    private Boolean isActive;
 }
