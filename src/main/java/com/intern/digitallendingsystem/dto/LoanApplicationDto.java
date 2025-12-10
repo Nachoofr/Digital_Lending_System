@@ -15,6 +15,7 @@ public class LoanApplicationDto {
     private Long loanProductId;
     private Long customerId;
     private Double requestedAmount;
+    private Long customerBankAccountId;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String status;

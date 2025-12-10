@@ -29,7 +29,7 @@ public class LoanApplication {
 
     @OneToOne
     @JoinColumn(name = "customerBankAccount_id")
-    private CustomerBankAccount customerBankAccount;
+    private CustomerBankAccount customerBankAccountId;
 
     @NotNull
     @Column(nullable = false)

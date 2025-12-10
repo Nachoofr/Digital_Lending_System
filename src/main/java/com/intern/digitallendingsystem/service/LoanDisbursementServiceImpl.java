@@ -26,7 +26,7 @@ public class LoanDisbursementServiceImpl implements LoanDisbursementService {
         if(loanApplication == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        var customerBankAccount = customerBankAccountRepo.findByIdAndIsActiveTrueAndCustomerIdIsActiveTrue(loanApplication.getCustomerBankAccount().getId());
+        var customerBankAccount = customerBankAccountRepo.findByIdAndIsActiveTrueAndCustomerIdIsActiveTrue(loanApplication.getCustomerBankAccountId().getId());
         if(customerBankAccount == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -41,7 +41,6 @@ public class LoanDisbursementServiceImpl implements LoanDisbursementService {
 
             loanApplication.setStatus(LoanStatus.DISBURSED);
             loanApplicationRepo.save(loanApplication);
-
             if(loanDisbursement.getDisbursementChannel() == DisbursementChannel.BANK_TRANSFER) {
                 var newBalance = customerBankAccount.getBalance() + loanDisbursement.getDisbursementAmount();
                 customerBankAccount.setBalance(newBalance);

@@ -25,6 +25,7 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
     public ResponseEntity<LoanApplicationDto> createLoanApplication(LoanApplicationDto LoanApplicationDto){
         var loanApplication = loanApplicationMapper.toEntity(LoanApplicationDto);
         var customer =customerRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(LoanApplicationDto.getCustomerId());
+//        var account = customerRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(LoanApplicationDto.getCustomerBankAccountId());
         loanApplication.setStatus(LoanStatus.PENDING);
         loanApplication.setBankId(customer.getBankId());
         loanApplicationRepo.save(loanApplication);
