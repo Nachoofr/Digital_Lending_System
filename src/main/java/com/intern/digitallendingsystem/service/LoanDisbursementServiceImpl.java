@@ -12,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+
 @Service
 @AllArgsConstructor
 public class LoanDisbursementServiceImpl implements LoanDisbursementService {
@@ -37,6 +40,9 @@ public class LoanDisbursementServiceImpl implements LoanDisbursementService {
             loanDisbursement.setLoanApplicationId(loanApplication);
             loanDisbursement.setDisbursementAmount(loanApplication.getApprovedAmount());
 
+            LocalDate localDate = loanDisbursement.getDisbursementDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate maturityDate = localDate.plusDays(30);
+            loanDisbursement.setMaturityDate(maturityDate);
             var savedDisbursement = loanDisbursementRepo.save(loanDisbursement);
 
             loanApplication.setStatus(LoanStatus.DISBURSED);

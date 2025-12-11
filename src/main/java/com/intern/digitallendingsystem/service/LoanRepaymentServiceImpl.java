@@ -20,7 +20,7 @@ public class LoanRepaymentServiceImpl implements LoanRepaymentService {
     LoanRepaymentMapper loanRepaymentMapper;
     LoanApplicationRepo loanApplicationRepo;
 
-    double totalRepaidAmount(long id){
+    public double totalRepaidAmount(long id){
         return loanRepaymentRepo.findAllByLoanApplicationIdId(id).stream()
                 .mapToDouble( LoanRepayment :: getAmountPaid)
                 .sum();
@@ -44,7 +44,14 @@ public class LoanRepaymentServiceImpl implements LoanRepaymentService {
         neededAmount = totalDisbursementAmount + interest;
         totalOutstandingAmount = totalDisbursementAmount + interest - totalRepaidAmount;
 
-        if (totalRepaidAmount < neededAmount && loanApplication.getStatus() != LoanStatus.CLOSED && (loanRepaymentDto.getAmountPaid() - totalOutstandingAmount) >=0) {
+        System.out.println("Total Disbursement Amount: " + totalDisbursementAmount);
+        System.out.println("Total Repaid Amount: " + totalRepaidAmount);
+        System.out.println("Interest: " + interest);
+        System.out.println("Needed Amount: " + neededAmount);
+        System.out.println("Total Outstanding Amount: " + totalOutstandingAmount);
+        System.out.println(loanRepaymentDto.getAmountPaid() - totalOutstandingAmount);
+
+        if (totalRepaidAmount < neededAmount && loanApplication.getStatus() != LoanStatus.CLOSED && (totalOutstandingAmount - loanRepaymentDto.getAmountPaid()) >=0) {
             System.out.println("before saving repayment");
             var loanRepayment = loanRepaymentMapper.toEntity(loanRepaymentDto);
             loanRepayment.setLoanApplicationId(loanApplication);
@@ -72,6 +79,7 @@ public class LoanRepaymentServiceImpl implements LoanRepaymentService {
 
     public ResponseEntity<List<LoanRepaymentDto>> getRepayments(long id){
         var loanApplication = loanApplicationRepo.findByIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrue(id);
+        System.out.println(loanApplication);
         if (loanApplication == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

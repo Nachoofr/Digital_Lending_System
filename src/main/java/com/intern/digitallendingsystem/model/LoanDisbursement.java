@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -22,6 +23,10 @@ public class LoanDisbursement {//once approved loan can be disbursed
     @NotNull
     @Column(nullable = false)
     private Date disbursementDate;
+
+    @NotNull
+    @Column(nullable = false)
+    private LocalDate maturityDate;
 
     @NotNull
     @Column(nullable = false)

@@ -8,4 +8,5 @@ import java.util.List;
 public interface LoanRepaymentService {
     ResponseEntity<LoanRepaymentDto> makeRepayment(long id, LoanRepaymentDto loanRepaymentDto);
     ResponseEntity<List<LoanRepaymentDto>> getRepayments(long id);
+    public double totalRepaidAmount(long id);
 }

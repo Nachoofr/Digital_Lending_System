@@ -1,11 +1,21 @@
 package com.intern.digitallendingsystem.repository;
 
+import com.intern.digitallendingsystem.enums.LoanStatus;
 import com.intern.digitallendingsystem.model.LoanApplication;
-import com.intern.digitallendingsystem.model.LoanProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.awt.image.PixelGrabber;
 
 @Repository
 public interface LoanApplicationRepo extends JpaRepository<LoanApplication,Long> {
     LoanApplication findByIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrue(Long id);
+    int countByBankIdIdAndCustomerIdIsActiveTrueAndBankIdIsActiveTrue(long id);
+    int countByBankIdIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrueAndStatus(long id, LoanStatus status);
+
+    LoanApplication findByBankIdIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrue(long id);
+
+    LoanApplication findByCustomerId_IdAndCustomerIdIsActiveTrueAndBankIdIsActiveTrue(long id);
+
+    LoanApplication findByCustomerId_Id(long id);
 }

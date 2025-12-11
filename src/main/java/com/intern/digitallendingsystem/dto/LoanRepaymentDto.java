@@ -3,6 +3,7 @@ package com.intern.digitallendingsystem.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
