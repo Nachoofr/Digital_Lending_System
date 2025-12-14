@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BankUserDto {
+
+    //todo
+    //add required validations annotation based
     private Long bankId;
     private String fullName;
     private String email;

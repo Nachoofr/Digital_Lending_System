@@ -11,6 +11,9 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoanApplicationDto {
+
+    //todo
+    //add required validations annotation based
     private long bankId;
     private long loanProductId;
     private long customerId;

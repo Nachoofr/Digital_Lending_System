@@ -12,6 +12,8 @@ import java.util.Date;
 @NoArgsConstructor
 public class BankDto {
 
+    //todo
+    //add required validations annotation based
 //    private long id;
     private String name;
     private int code;
