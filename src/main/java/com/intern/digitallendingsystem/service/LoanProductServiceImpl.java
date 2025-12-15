@@ -5,6 +5,8 @@ import com.intern.digitallendingsystem.mapper.LoanProductMapper;
 import com.intern.digitallendingsystem.repository.LoanProductRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,11 +19,11 @@ public class LoanProductServiceImpl implements LoanProductService {
 
     // todo
     // implement proper logging using SL4J
-    public LoanProductDto createLoanProduct(LoanProductDto loanProductDto){
+    public ResponseEntity<LoanProductDto> createLoanProduct(LoanProductDto loanProductDto){
         var loanProduct = loanProductMapper.toEntity(loanProductDto);
         loanProduct.setActive(true);
         loanProductRepo.save(loanProduct);
-        return loanProductMapper.toDto(loanProduct);
+        return new ResponseEntity<>(loanProductMapper.toDto(loanProduct), HttpStatus.CREATED);
     }
 
 
@@ -32,33 +34,33 @@ public class LoanProductServiceImpl implements LoanProductService {
                 .toList();
     }
 
-    public LoanProductDto getLoanProductById(long id ){
+    public ResponseEntity<LoanProductDto> getLoanProductById(long id ){
         var loanProduct = loanProductRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
         if (loanProduct == null){
-            return  null;
+            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return loanProductMapper.toDto(loanProduct);
+        return new ResponseEntity<>(loanProductMapper.toDto(loanProduct), HttpStatus.OK);
     }
 
-    public LoanProductDto updateLoanProduct(long id, LoanProductDto loanProductDto) {
-        if (!loanProductRepo.existsById(id)) {
-            return null;
-        }
+    public ResponseEntity<LoanProductDto> updateLoanProduct(long id, LoanProductDto loanProductDto) {
         var loanProduct = loanProductRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
+        if (loanProduct == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         loanProduct.setActive(true);
         loanProductMapper.update(loanProductDto, loanProduct);
         loanProductRepo.save(loanProduct);
-        return loanProductMapper.toDto(loanProduct);
+        return new ResponseEntity<>(loanProductMapper.toDto(loanProduct), HttpStatus.OK);
     }
 
-    public boolean deleteLoanProduct(long id) {
+    public ResponseEntity<Void> deleteLoanProduct(long id) {
         var loanProduct = loanProductRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
         if (loanProduct == null){
-            return false;
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         loanProduct.setActive(false);
         loanProductRepo.save(loanProduct);
-        return true;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

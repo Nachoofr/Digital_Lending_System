@@ -13,7 +13,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerDto {
-
     //todo
     //add required validations annotation based
     private long bankId;

@@ -12,14 +12,14 @@ public class LoanProductDto {
 
     //todo
     //add required validations annotation based
-    private long bankId;
+    private Long bankId;
     private String name;
     private String productCode;
-    private double interestRate;
-    private int tenureInMonths;
-    private double minAmount;
-    private double maxAmount;
-    private double processingFeePercent;
+    private Double interestRate;
+    private Integer tenureInMonths;
+    private Double minAmount;
+    private Double maxAmount;
+    private Double processingFeePercent;
     @JsonIgnore
     private Boolean isActive;
 

@@ -4,6 +4,8 @@ import com.intern.digitallendingsystem.dto.BankDto;
 import com.intern.digitallendingsystem.mapper.BankMapper;
 import com.intern.digitallendingsystem.repository.BankRepo;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,12 +16,11 @@ public class BankServiceImpl implements  BankService {
     private BankMapper bankMapper;
     private BankRepo bankRepo;
 
-    public BankDto createBank(BankDto bankDto) {
+    public ResponseEntity<BankDto> createBank(BankDto bankDto) {
         var bank = bankMapper.toEntity(bankDto);
         bank.setActive(true);
         bankRepo.save(bank);
-
-        return bankMapper.toDto(bank);
+        return new ResponseEntity<>(bankMapper.toDto(bank), HttpStatus.CREATED);
     }
 
     public List<BankDto> getAllBanks() {
@@ -28,33 +29,33 @@ public class BankServiceImpl implements  BankService {
                 .toList();
     }
 
-    public BankDto getBankById(long id) {
-        if (!bankRepo.existsById(id)) {
-            return null;
+    public ResponseEntity<BankDto> getBankById(long id) {
+        if (bankRepo.findByIdAndIsActiveTrue(id) == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         var bank = bankRepo.findByIdAndIsActiveTrue(id);
-        return bankMapper.toDto(bank);
+        return new ResponseEntity<>(bankMapper.toDto(bank), HttpStatus.OK);
     }
 
-    public BankDto updateBank(long id, BankDto bankDto) {
+    public ResponseEntity<BankDto> updateBank(long id, BankDto bankDto) {
         if (!bankRepo.existsById(id)) {
-            return null;
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         var bank = bankRepo.findByIdAndIsActiveTrue(id);
         bankMapper.update(bankDto, bank);
         bankRepo.save(bank);
         bank.setActive(true);
-        return bankMapper.toDto(bank);
+        return new ResponseEntity<>(bankMapper.toDto(bank), HttpStatus.OK);
     }
 
-    public boolean deleteBank(long id) {
+    public ResponseEntity<Void> deleteBank(long id) {
         var bank = bankRepo.findByIdAndIsActiveTrue(id);
         if (bank == null) {
-            return false;
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         bank.setActive(false);
         bankRepo.save(bank);
-        return true;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

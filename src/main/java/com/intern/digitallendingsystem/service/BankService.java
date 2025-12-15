@@ -1,14 +1,16 @@
 package com.intern.digitallendingsystem.service;
 
 import com.intern.digitallendingsystem.dto.BankDto;
+import org.apache.coyote.Response;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface BankService {
-    BankDto createBank(BankDto bankDto);
+    ResponseEntity<BankDto> createBank(BankDto bankDto);
     List<BankDto> getAllBanks();
-    BankDto getBankById(long id);
-    BankDto updateBank(long id, BankDto bankDto);
-    boolean deleteBank(long id);
+    ResponseEntity<BankDto> getBankById(long id);
+    ResponseEntity<BankDto> updateBank(long id, BankDto bankDto);
+    ResponseEntity<Void> deleteBank(long id);
 
 }

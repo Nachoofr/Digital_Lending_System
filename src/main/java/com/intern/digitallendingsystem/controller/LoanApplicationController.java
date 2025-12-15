@@ -16,8 +16,7 @@ public class LoanApplicationController {
 
     @PostMapping("api/loan-applications")
     public ResponseEntity<LoanApplicationDto> createLoanApplication(@RequestBody LoanApplicationDto LoanApplicationDto){
-        var loanApplication = loanApplicationService.createLoanApplication(LoanApplicationDto);
-        return new ResponseEntity<>(loanApplication, HttpStatus.OK);
+        return loanApplicationService.createLoanApplication(LoanApplicationDto);
     }
 
     @GetMapping("api/loan-applications")
@@ -33,36 +32,17 @@ public class LoanApplicationController {
 
     @GetMapping("api/loan-applications/{id}")
     public ResponseEntity<LoanApplicationDto> getLoanApplicationById(@PathVariable Long id){
-        var loanApplication = loanApplicationService.getLoanApplicationById(id);
-        if (loanApplication == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(loanApplication, HttpStatus.OK);
+       return loanApplicationService.getLoanApplicationById(id);
     }
 
     @PutMapping("api/loan-applications/{id}/approve" )
     public ResponseEntity<LoanApplicationDto> approveLoanApplication(@PathVariable Long id){
-        var loanApplication = loanApplicationService.approveLoanApplication(id);
-        if (loanApplication == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        //todo
-        // ..make constants for Status strings
-        if(loanApplication.getStatus().toString().equals("APPROVED")){
-            return new ResponseEntity<>(loanApplication, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(loanApplication, HttpStatus.BAD_REQUEST);
+        return loanApplicationService.approveLoanApplication(id);
     }
 
     @PutMapping("api/loan-applications/{id}/reject" )
     public ResponseEntity<LoanApplicationDto> rejectLoanApplication(@PathVariable Long id){
-        var loanApplication = loanApplicationService.rejectLoanApplication(id);
-        if (loanApplication == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(loanApplication, HttpStatus.OK);
-
+        return loanApplicationService.rejectLoanApplication(id);
     }
 
 }

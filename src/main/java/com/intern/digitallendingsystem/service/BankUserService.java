@@ -1,13 +1,14 @@
 package com.intern.digitallendingsystem.service;
 
 import com.intern.digitallendingsystem.dto.BankUserDto;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface BankUserService {
-    public BankUserDto createBankUser(BankUserDto bankUserDto);
-    public List<BankUserDto> getAllBankUsers(String sort);
-    public BankUserDto getBankUserById(long id);
-    public BankUserDto updateBankUser(long id, BankUserDto bankUserDto);
-    public Boolean deleteBankUser(long id);
+    ResponseEntity<BankUserDto> createBankUser(BankUserDto bankUserDto);
+    List<BankUserDto> getAllBankUsers(String sort);
+    ResponseEntity<BankUserDto> getBankUserById(long id);
+    ResponseEntity<BankUserDto> updateBankUser(long id, BankUserDto bankUserDto);
+    ResponseEntity<Void> deleteBankUser(long id);
 }

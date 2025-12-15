@@ -13,13 +13,11 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 public class CustomerController {
-    private final CustomerServiceImpl customerServiceImpl;
     CustomerService customerService;
 
     @PostMapping("/api/customers")
     public ResponseEntity<CustomerDto> createCustomer (@RequestBody CustomerDto customerDto) {
-        var customer = customerService.createCustomer(customerDto);
-        return new ResponseEntity<>(customer, HttpStatus.OK);
+        return customerService.createCustomer(customerDto);
     }
 
     @GetMapping("/api/customers")
@@ -32,11 +30,7 @@ public class CustomerController {
 
     @GetMapping("api/customers/{id}")
     public ResponseEntity<CustomerDto> getCustomerById(@PathVariable long id) {
-        var customers = customerService.getCustomerById(id);
-        if (customers == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(customers, HttpStatus.OK);
+        return customerService.getCustomerById(id);
     }
 
     @PutMapping("api/customers/{id}")
@@ -44,20 +38,12 @@ public class CustomerController {
             @PathVariable long id,
             @RequestBody CustomerDto customerDto
     ){
-        var customer = customerService.updateCustomer(id, customerDto);
-        if(customer == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(customer, HttpStatus.OK);
+       return customerService.updateCustomer(id, customerDto);
     }
 
     @DeleteMapping("api/customers/{id}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable long id) {
-        var customer = customerService.deleteCustomer(id);
-        if (customer == false) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return customerService.deleteCustomer(id);
     }
 
 

@@ -3,8 +3,12 @@ package com.intern.digitallendingsystem.service;
 import com.intern.digitallendingsystem.dto.LoanApplicationDto;
 import com.intern.digitallendingsystem.enums.LoanStatus;
 import com.intern.digitallendingsystem.mapper.LoanApplicationMapper;
+import com.intern.digitallendingsystem.repository.CustomerRepo;
 import com.intern.digitallendingsystem.repository.LoanApplicationRepo;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,14 +18,18 @@ import java.util.List;
 public class LoanApplicationServiceImpl implements LoanApplicationService {
     LoanApplicationRepo loanApplicationRepo;
     LoanApplicationMapper loanApplicationMapper;
+    CustomerRepo customerRepo;
 
     //todo
     //implement proper logging using SL4J
-    public LoanApplicationDto createLoanApplication(LoanApplicationDto LoanApplicationDto){
+    public ResponseEntity<LoanApplicationDto> createLoanApplication(LoanApplicationDto LoanApplicationDto){
         var loanApplication = loanApplicationMapper.toEntity(LoanApplicationDto);
+        var customer =customerRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(LoanApplicationDto.getCustomerId());
+//        var account = customerRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(LoanApplicationDto.getCustomerBankAccountId());
         loanApplication.setStatus(LoanStatus.PENDING);
+        loanApplication.setBankId(customer.getBankId());
         loanApplicationRepo.save(loanApplication);
-        return loanApplicationMapper.toDto(loanApplication);
+        return new ResponseEntity<>(loanApplicationMapper.toDto(loanApplication), HttpStatus.OK);
     }
 
     public List<LoanApplicationDto> getAllLoanApplication(String status, long bankId, long customerId){
@@ -51,37 +59,37 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
 
     }
 
-    public LoanApplicationDto getLoanApplicationById(long id){
+    public ResponseEntity<LoanApplicationDto> getLoanApplicationById(long id){
         var loanApplication = loanApplicationRepo.findByIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrue(id);
         if (loanApplication == null){
-            return null;
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return loanApplicationMapper.toDto(loanApplication);
+        return new ResponseEntity<>(loanApplicationMapper.toDto(loanApplication), HttpStatus.OK);
     }
 
-    public LoanApplicationDto approveLoanApplication(long id){
+    public ResponseEntity<LoanApplicationDto> approveLoanApplication(long id){
         var loanApplication = loanApplicationRepo.findByIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrue(id);
         var loanProduct = loanApplication.getLoanProductId();
         if (loanApplication == null){
-            return null;
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         if (loanApplication.getRequestedAmount() <= loanProduct.getMaxAmount()){
             loanApplication.setStatus(LoanStatus.APPROVED);
             loanApplication.setApprovedAmount(loanApplication.getRequestedAmount());
             loanApplicationRepo.save(loanApplication);
-            return loanApplicationMapper.toDto(loanApplication);
+            return new ResponseEntity<>(loanApplicationMapper.toDto(loanApplication), HttpStatus.OK);
         }
-        return loanApplicationMapper.toDto(loanApplication);
+        return new ResponseEntity<>(loanApplicationMapper.toDto(loanApplication), HttpStatus.BAD_REQUEST);
 
     }
 
-    public LoanApplicationDto rejectLoanApplication(long id){
+    public ResponseEntity<LoanApplicationDto> rejectLoanApplication(long id){
         var loanApplication = loanApplicationRepo.findByIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrue(id);
         if (loanApplication == null){
-            return null;
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         loanApplication.setStatus(LoanStatus.REJECTED);
         loanApplicationRepo.save(loanApplication);
-        return loanApplicationMapper.toDto(loanApplication);
+        return new ResponseEntity<>(loanApplicationMapper.toDto(loanApplication), HttpStatus.OK);
     }
 }

@@ -24,7 +24,8 @@ public class CustomerBankAccount {
     @Column(nullable = false)
     private double balance;
 
-    @Enumerated(EnumType.STRING)
-    private LoanStatus status;
+    @NotNull
+    @Column(nullable = false)
+    private boolean isActive;
 
 }
