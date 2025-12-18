@@ -2,12 +2,13 @@ package com.intern.digitallendingsystem.mapper;
 
 import com.intern.digitallendingsystem.dto.LoanDisbursementDto;
 import com.intern.digitallendingsystem.model.LoanDisbursement;
+import com.intern.digitallendingsystem.util.MapperUtil;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {MapperUtil.class})
 public interface LoanDisbursementMapper {
 
     @Mapping(source = "loanApplicationId.id", target = "loanApplicationId")
@@ -21,9 +22,5 @@ public interface LoanDisbursementMapper {
     @Mapping(source = "disbursementChannel", target = "disbursementChannel", qualifiedByName = "mapDisbursementChannel")
     void update(LoanDisbursementDto dto, @MappingTarget LoanDisbursement entity);
 
-    @Named("mapDisbursementChannel")
-    default String mapDisbursementChannel(String disbursementChannel) {
-        if (disbursementChannel == null) return null;
-        return disbursementChannel.toUpperCase().trim();
-    }
+
 }
