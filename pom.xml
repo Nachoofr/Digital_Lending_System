@@ -13,7 +13,7 @@
     </parent>
 
     <groupId>com.intern</groupId>
-    <artifactId>DigitalLendingSystem</artifactId>
+    <artifactId>Digital-Lending-System</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>DigitalLendingSystem</name>
     <description>DigitalLendingSystem</description>

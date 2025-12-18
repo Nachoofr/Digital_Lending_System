@@ -6,10 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.awt.image.PixelGrabber;
+import java.util.Optional;
 
 @Repository
 public interface LoanApplicationRepo extends JpaRepository<LoanApplication,Long> {
-    LoanApplication findByIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrue(Long id);
+    Optional<LoanApplication> findByIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrue(Long id);
     int countByBankIdIdAndCustomerIdIsActiveTrueAndBankIdIsActiveTrue(long id);
     int countByBankIdIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrueAndStatus(long id, LoanStatus status);
 

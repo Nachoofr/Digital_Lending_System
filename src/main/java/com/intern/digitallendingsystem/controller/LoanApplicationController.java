@@ -19,13 +19,11 @@ public class LoanApplicationController {
         return loanApplicationService.createLoanApplication(LoanApplicationDto);
     }
 
-    @GetMapping("api/loan-applications")
+    @GetMapping("api/loan-applications")//create a new dto and pass dto with post mapping
     public ResponseEntity<List<LoanApplicationDto>> getAllLoanApplication(
         @RequestParam(required = false, defaultValue = "", name="status") String status,
         @RequestParam(required = false, defaultValue = "0", name="bankId") long bankId,
-        @RequestParam(required = false, defaultValue = "0", name="customerId") long customerId
-    )
-    {
+        @RequestParam(required = false, defaultValue = "0", name="customerId") long customerId) {
         var loanApplications = loanApplicationService.getAllLoanApplication(status, bankId, customerId);
         return new ResponseEntity<>(loanApplications, HttpStatus.OK);
     }
@@ -35,7 +33,7 @@ public class LoanApplicationController {
        return loanApplicationService.getLoanApplicationById(id);
     }
 
-    @PutMapping("api/loan-applications/{id}/approve" )
+    @PutMapping("api/loan-applications/{id}/approve" )//use post
     public ResponseEntity<LoanApplicationDto> approveLoanApplication(@PathVariable Long id){
         return loanApplicationService.approveLoanApplication(id);
     }

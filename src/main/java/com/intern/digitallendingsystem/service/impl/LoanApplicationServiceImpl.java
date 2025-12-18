@@ -1,17 +1,20 @@
-package com.intern.digitallendingsystem.service;
+package com.intern.digitallendingsystem.service.impl;
 
 import com.intern.digitallendingsystem.dto.LoanApplicationDto;
 import com.intern.digitallendingsystem.enums.LoanStatus;
 import com.intern.digitallendingsystem.mapper.LoanApplicationMapper;
+import com.intern.digitallendingsystem.model.Customer;
+import com.intern.digitallendingsystem.model.LoanApplication;
 import com.intern.digitallendingsystem.repository.CustomerRepo;
 import com.intern.digitallendingsystem.repository.LoanApplicationRepo;
+import com.intern.digitallendingsystem.service.LoanApplicationService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -24,7 +27,11 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
     //implement proper logging using SL4J
     public ResponseEntity<LoanApplicationDto> createLoanApplication(LoanApplicationDto LoanApplicationDto){
         var loanApplication = loanApplicationMapper.toEntity(LoanApplicationDto);
-        var customer =customerRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(LoanApplicationDto.getCustomerId());
+        Optional<Customer> optionalCustomer =customerRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(LoanApplicationDto.getCustomerId());
+        if (optionalCustomer.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Customer customer = optionalCustomer.get();
 //        var account = customerRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(LoanApplicationDto.getCustomerBankAccountId());
         loanApplication.setStatus(LoanStatus.PENDING);
         loanApplication.setBankId(customer.getBankId());
@@ -60,19 +67,22 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
     }
 
     public ResponseEntity<LoanApplicationDto> getLoanApplicationById(long id){
-        var loanApplication = loanApplicationRepo.findByIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrue(id);
-        if (loanApplication == null){
+        Optional<LoanApplication> optionalLoanApplication = loanApplicationRepo.findByIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrue(id);
+        if (optionalLoanApplication.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        LoanApplication loanApplication = optionalLoanApplication.get();
         return new ResponseEntity<>(loanApplicationMapper.toDto(loanApplication), HttpStatus.OK);
     }
 
     public ResponseEntity<LoanApplicationDto> approveLoanApplication(long id){
-        var loanApplication = loanApplicationRepo.findByIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrue(id);
-        var loanProduct = loanApplication.getLoanProductId();
-        if (loanApplication == null){
+        Optional<LoanApplication> optionalLoanApplication = loanApplicationRepo.findByIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrue(id);
+        if (optionalLoanApplication.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        LoanApplication loanApplication = optionalLoanApplication.get();
+        var loanProduct = loanApplication.getLoanProductId();
+
         if (loanApplication.getRequestedAmount() <= loanProduct.getMaxAmount()){
             loanApplication.setStatus(LoanStatus.APPROVED);
             loanApplication.setApprovedAmount(loanApplication.getRequestedAmount());
@@ -84,10 +94,11 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
     }
 
     public ResponseEntity<LoanApplicationDto> rejectLoanApplication(long id){
-        var loanApplication = loanApplicationRepo.findByIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrue(id);
-        if (loanApplication == null){
+        Optional<LoanApplication> optionalLoanApplication = loanApplicationRepo.findByIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrue(id);
+        if (optionalLoanApplication.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        LoanApplication loanApplication = optionalLoanApplication.get();
         loanApplication.setStatus(LoanStatus.REJECTED);
         loanApplicationRepo.save(loanApplication);
         return new ResponseEntity<>(loanApplicationMapper.toDto(loanApplication), HttpStatus.OK);

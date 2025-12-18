@@ -1,8 +1,10 @@
-package com.intern.digitallendingsystem.service;
+package com.intern.digitallendingsystem.service.impl;
 
 import com.intern.digitallendingsystem.dto.LoanProductDto;
 import com.intern.digitallendingsystem.mapper.LoanProductMapper;
+import com.intern.digitallendingsystem.model.LoanProduct;
 import com.intern.digitallendingsystem.repository.LoanProductRepo;
+import com.intern.digitallendingsystem.service.LoanProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -35,18 +38,20 @@ public class LoanProductServiceImpl implements LoanProductService {
     }
 
     public ResponseEntity<LoanProductDto> getLoanProductById(long id ){
-        var loanProduct = loanProductRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
-        if (loanProduct == null){
+        Optional<LoanProduct> optionalLoanProduct = loanProductRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
+        if (optionalLoanProduct.isEmpty()){
             return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        LoanProduct loanProduct = optionalLoanProduct.get();
         return new ResponseEntity<>(loanProductMapper.toDto(loanProduct), HttpStatus.OK);
     }
 
     public ResponseEntity<LoanProductDto> updateLoanProduct(long id, LoanProductDto loanProductDto) {
-        var loanProduct = loanProductRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
-        if (loanProduct == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Optional<LoanProduct> optionalLoanProduct = loanProductRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
+        if (optionalLoanProduct.isEmpty()){
+            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        LoanProduct loanProduct = optionalLoanProduct.get();
         loanProduct.setActive(true);
         loanProductMapper.update(loanProductDto, loanProduct);
         loanProductRepo.save(loanProduct);
@@ -54,10 +59,11 @@ public class LoanProductServiceImpl implements LoanProductService {
     }
 
     public ResponseEntity<Void> deleteLoanProduct(long id) {
-        var loanProduct = loanProductRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
-        if (loanProduct == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Optional<LoanProduct> optionalLoanProduct = loanProductRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
+        if (optionalLoanProduct.isEmpty()){
+            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        LoanProduct loanProduct = optionalLoanProduct.get();
         loanProduct.setActive(false);
         loanProductRepo.save(loanProduct);
         return new ResponseEntity<>(HttpStatus.OK);

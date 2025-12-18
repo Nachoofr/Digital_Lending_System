@@ -15,9 +15,7 @@ public class LoanDisbursementController {
     LoanDisbursementService loanDisbursementService;
 
     @PostMapping("/api/loan-applications/{id}/disburse")
-    public ResponseEntity<LoanDisbursementDto> disbursLoan(
-            @PathVariable long id,
-            @RequestBody LoanDisbursementDto loanDisbursementDto) {
+    public ResponseEntity<LoanDisbursementDto> disbursLoan(@PathVariable long id, @RequestBody LoanDisbursementDto loanDisbursementDto) {
         return loanDisbursementService.disburse(id, loanDisbursementDto);
     }
 }

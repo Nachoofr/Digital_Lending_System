@@ -1,17 +1,20 @@
-package com.intern.digitallendingsystem.service;
+package com.intern.digitallendingsystem.service.impl;
 
 import com.intern.digitallendingsystem.dto.LoanRepaymentDto;
 import com.intern.digitallendingsystem.enums.LoanStatus;
 import com.intern.digitallendingsystem.mapper.LoanRepaymentMapper;
+import com.intern.digitallendingsystem.model.LoanApplication;
 import com.intern.digitallendingsystem.model.LoanRepayment;
 import com.intern.digitallendingsystem.repository.LoanApplicationRepo;
 import com.intern.digitallendingsystem.repository.LoanRepaymentRepo;
+import com.intern.digitallendingsystem.service.LoanRepaymentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -33,10 +36,11 @@ public class LoanRepaymentServiceImpl implements LoanRepaymentService {
         double neededAmount = 0.0;
         double interest = 0.0;
 
-        var loanApplication = loanApplicationRepo.findByIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrue(id);
-        if (loanApplication == null) {
+        Optional<LoanApplication> optionalLoanApplication = loanApplicationRepo.findByIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrue(id);
+        if (optionalLoanApplication.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        LoanApplication loanApplication = optionalLoanApplication.get();
 
         totalDisbursementAmount= loanApplication.getApprovedAmount();
         totalRepaidAmount = totalRepaidAmount(id);
@@ -78,11 +82,13 @@ public class LoanRepaymentServiceImpl implements LoanRepaymentService {
     }
 
     public ResponseEntity<List<LoanRepaymentDto>> getRepayments(long id){
-        var loanApplication = loanApplicationRepo.findByIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrue(id);
-        System.out.println(loanApplication);
-        if (loanApplication == null) {
+        Optional<LoanApplication> optionalLoanApplication = loanApplicationRepo.findByIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrue(id);
+        if (optionalLoanApplication.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        LoanApplication loanApplication = optionalLoanApplication.get();
+        System.out.println(loanApplication);
+
 
         var repayments = loanRepaymentRepo.findAllByLoanApplicationIdId(id).stream()
                 .map(loanRepaymentMapper::toDto)

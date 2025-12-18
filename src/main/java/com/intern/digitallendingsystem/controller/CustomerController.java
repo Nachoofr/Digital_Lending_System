@@ -2,7 +2,6 @@ package com.intern.digitallendingsystem.controller;
 
 import com.intern.digitallendingsystem.dto.CustomerDto;
 import com.intern.digitallendingsystem.service.CustomerService;
-import com.intern.digitallendingsystem.service.CustomerServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

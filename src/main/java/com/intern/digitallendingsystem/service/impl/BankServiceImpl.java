@@ -1,18 +1,21 @@
-package com.intern.digitallendingsystem.service;
+package com.intern.digitallendingsystem.service.impl;
 
 import com.intern.digitallendingsystem.dto.BankDto;
 import com.intern.digitallendingsystem.mapper.BankMapper;
+import com.intern.digitallendingsystem.model.Bank;
 import com.intern.digitallendingsystem.repository.BankRepo;
+import com.intern.digitallendingsystem.service.BankService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class BankServiceImpl implements  BankService {
+public class BankServiceImpl implements BankService {
     private BankMapper bankMapper;
     private BankRepo bankRepo;
 
@@ -30,18 +33,22 @@ public class BankServiceImpl implements  BankService {
     }
 
     public ResponseEntity<BankDto> getBankById(long id) {
-        if (bankRepo.findByIdAndIsActiveTrue(id) == null) {
+        Optional<Bank> bankOptional=bankRepo.findByIdAndIsActiveTrue(id);
+        if(bankOptional.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        var bank = bankRepo.findByIdAndIsActiveTrue(id);
+        Bank bank=bankOptional.get();
+
         return new ResponseEntity<>(bankMapper.toDto(bank), HttpStatus.OK);
     }
 
     public ResponseEntity<BankDto> updateBank(long id, BankDto bankDto) {
-        if (!bankRepo.existsById(id)) {
+
+        Optional<Bank> bankOptional=bankRepo.findByIdAndIsActiveTrue(id);
+        if(bankOptional.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        var bank = bankRepo.findByIdAndIsActiveTrue(id);
+        Bank bank=bankOptional.get();
         bankMapper.update(bankDto, bank);
         bankRepo.save(bank);
         bank.setActive(true);
@@ -49,10 +56,11 @@ public class BankServiceImpl implements  BankService {
     }
 
     public ResponseEntity<Void> deleteBank(long id) {
-        var bank = bankRepo.findByIdAndIsActiveTrue(id);
-        if (bank == null) {
+        Optional<Bank> bankOptional=bankRepo.findByIdAndIsActiveTrue(id);
+        if(bankOptional.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        Bank bank=bankOptional.get();
         bank.setActive(false);
         bankRepo.save(bank);
         return new ResponseEntity<>(HttpStatus.OK);

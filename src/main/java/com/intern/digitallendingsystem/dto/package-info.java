@@ -1,0 +1,1 @@
+package com.intern.digitallendingsystem.dto;

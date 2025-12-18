@@ -1,8 +1,10 @@
-package com.intern.digitallendingsystem.service;
+package com.intern.digitallendingsystem.service.impl;
 
 import com.intern.digitallendingsystem.dto.CustomerDto;
 import com.intern.digitallendingsystem.mapper.CustomerMapper;
+import com.intern.digitallendingsystem.model.Customer;
 import com.intern.digitallendingsystem.repository.CustomerRepo;
+import com.intern.digitallendingsystem.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -35,18 +38,20 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public ResponseEntity<CustomerDto> getCustomerById(long id) {
-        var customer = customerRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
-        if (customer == null) {
+        Optional<Customer> optionalCustomer = customerRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
+        if (optionalCustomer.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        Customer customer = optionalCustomer.get();
         return new ResponseEntity<>(customerMapper.toDto(customer), HttpStatus.OK);
     }
 
     public ResponseEntity<CustomerDto> updateCustomer(long id, CustomerDto customerDto) {
-        var customer = customerRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
-        if (customer == null) {
+        Optional<Customer> optionalCustomer = customerRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
+        if (optionalCustomer.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        Customer customer = optionalCustomer.get();
         customerMapper.update(customerDto, customer);
         customer.setActive(true);
         customerRepo.save(customer);
@@ -54,10 +59,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public ResponseEntity<Void> deleteCustomer(long id) {
-        var customer = customerRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
-        if (customer == null) {
+        Optional<Customer> optionalCustomer = customerRepo.findByIdAndIsActiveTrueAndBankIdIsActiveTrue(id);
+        if (optionalCustomer.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        Customer customer = optionalCustomer.get();
         customer.setActive(false);
         customerRepo.save(customer);
         return new ResponseEntity<>(HttpStatus.OK);

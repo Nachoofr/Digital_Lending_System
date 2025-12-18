@@ -1,20 +1,19 @@
-package com.intern.digitallendingsystem.service;
+package com.intern.digitallendingsystem.service.impl;
 
 import com.intern.digitallendingsystem.dto.ReportingBankApiDto;
 import com.intern.digitallendingsystem.dto.ReportingCustomerApiDto;
 import com.intern.digitallendingsystem.enums.LoanStatus;
-import com.intern.digitallendingsystem.model.LoanDisbursement;
+import com.intern.digitallendingsystem.model.LoanApplication;
 import com.intern.digitallendingsystem.model.LoanRepayment;
 import com.intern.digitallendingsystem.repository.LoanApplicationRepo;
 import com.intern.digitallendingsystem.repository.LoanDisbursementRepo;
 import com.intern.digitallendingsystem.repository.LoanRepaymentRepo;
+import com.intern.digitallendingsystem.service.ReportingApiService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.List;
+
 
 @Service
 @AllArgsConstructor
@@ -44,7 +43,7 @@ public class ReportingApiServiceImpl implements ReportingApiService {
     double calculateTotalOutstandingAmountByBank(long id){
         double totalDisbursedAmount = totalDisbursedAmountByBankId(id);
         double totalRepaymentAmount = totalRepaidAmountByBank(id);
-        var loanApplication = loanApplicationRepo.findByBankIdIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrue(id);
+        LoanApplication loanApplication = loanApplicationRepo.findByBankIdIdAndBankIdIsActiveTrueAndCustomerIdIsActiveTrue(id);
         double interest = (loanApplication.getLoanProductId().getInterestRate()/100)* totalDisbursedAmount;
         return totalDisbursedAmount + interest - totalRepaymentAmount;
     }
