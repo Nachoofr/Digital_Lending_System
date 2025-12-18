@@ -29,7 +29,6 @@ public class BankUser {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole role;

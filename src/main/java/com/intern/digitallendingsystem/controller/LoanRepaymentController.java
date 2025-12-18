@@ -4,6 +4,7 @@ import com.intern.digitallendingsystem.constants.LoanRepaymentApiEndpointConstan
 import com.intern.digitallendingsystem.dto.LoanRepaymentDto;
 import com.intern.digitallendingsystem.model.LoanRepayment;
 import com.intern.digitallendingsystem.service.LoanRepaymentService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +17,7 @@ public class LoanRepaymentController {
     LoanRepaymentService loanRepaymentService;
 
     @PostMapping(LoanRepaymentApiEndpointConstants.REPAYMENTS)
-    public ResponseEntity<LoanRepaymentDto> makeRepayment(
-            @PathVariable long id,
-            @RequestBody LoanRepaymentDto loanRepaymentDto) {
+    public ResponseEntity<LoanRepaymentDto> makeRepayment(@PathVariable long id, @Valid @RequestBody LoanRepaymentDto loanRepaymentDto) {
         return loanRepaymentService.makeRepayment(id, loanRepaymentDto);
     }
 

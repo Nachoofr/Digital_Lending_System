@@ -3,6 +3,7 @@ package com.intern.digitallendingsystem.controller;
 import com.intern.digitallendingsystem.constants.CustomerApiEndpointConstants;
 import com.intern.digitallendingsystem.dto.CustomerDto;
 import com.intern.digitallendingsystem.service.CustomerService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class CustomerController {
     CustomerService customerService;
 
     @PostMapping(CustomerApiEndpointConstants.CUSTOMERS)
-    public ResponseEntity<CustomerDto> createCustomer (@RequestBody CustomerDto customerDto) {
+    public ResponseEntity<CustomerDto> createCustomer (@Valid @RequestBody CustomerDto customerDto) {
         return customerService.createCustomer(customerDto);
     }
 
@@ -34,9 +35,7 @@ public class CustomerController {
     }
 
     @PutMapping(CustomerApiEndpointConstants.CUSTOMER_ID)
-    public ResponseEntity<CustomerDto> updateCustomer(
-            @PathVariable long id,
-            @RequestBody CustomerDto customerDto
+    public ResponseEntity<CustomerDto> updateCustomer(@PathVariable long id, @Valid @RequestBody CustomerDto customerDto
     ){
        return customerService.updateCustomer(id, customerDto);
     }

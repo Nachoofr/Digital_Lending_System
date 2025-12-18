@@ -4,6 +4,7 @@ import com.intern.digitallendingsystem.constants.CustomerApiEndpointConstants;
 import com.intern.digitallendingsystem.constants.CustomerBankAccountApiEndpointConstants;
 import com.intern.digitallendingsystem.dto.CustomerBankAccountDto;
 import com.intern.digitallendingsystem.service.CustomerBankAccountService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class CustomerBankAccountController {
     CustomerBankAccountService customerBankAccountService;
 
     @PostMapping(CustomerBankAccountApiEndpointConstants.CUSTOMER_BANK_ACCOUNTS)
-    public ResponseEntity<CustomerBankAccountDto> createCustomerBankAccount(@RequestBody CustomerBankAccountDto customerBankAccountDto){
+    public ResponseEntity<CustomerBankAccountDto> createCustomerBankAccount(@Valid @RequestBody CustomerBankAccountDto customerBankAccountDto){
         return customerBankAccountService.createCustomerBankAccount(customerBankAccountDto);
     }
 

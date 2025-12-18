@@ -3,6 +3,7 @@ package com.intern.digitallendingsystem.controller;
 import com.intern.digitallendingsystem.constants.LoanProductApiEndpointConstants;
 import com.intern.digitallendingsystem.dto.LoanProductDto;
 import com.intern.digitallendingsystem.service.LoanProductService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class LoanProductController {
     LoanProductService loanProductService;
 
     @PostMapping(LoanProductApiEndpointConstants.LOAN_PRODUCTS)
-    public ResponseEntity<LoanProductDto> createLoanProduct(@RequestBody LoanProductDto loanProductDto){
+    public ResponseEntity<LoanProductDto> createLoanProduct(@Valid @RequestBody LoanProductDto loanProductDto){
         return loanProductService.createLoanProduct(loanProductDto);
     }
 
@@ -34,9 +35,7 @@ public class LoanProductController {
     }
 
     @PutMapping(LoanProductApiEndpointConstants.LOAN_PRODUCT_ID)
-    public ResponseEntity<LoanProductDto> updateLoanProduct(
-            @PathVariable long id,
-            @RequestBody LoanProductDto loanProductDto
+    public ResponseEntity<LoanProductDto> updateLoanProduct(@PathVariable long id, @Valid @RequestBody LoanProductDto loanProductDto
     ){
        return loanProductService.updateLoanProduct(id, loanProductDto);
     }

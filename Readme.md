@@ -5,7 +5,7 @@
 
 3. Use validators in dto level with appropriate error messages.
    eg: BankDto
-
+ 
 4. Implement proper logging in service layer and business logic outputds for tracing error and datas.
 eg: SL4J
 

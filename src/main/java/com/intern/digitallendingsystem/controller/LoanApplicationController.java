@@ -3,6 +3,7 @@ package com.intern.digitallendingsystem.controller;
 import com.intern.digitallendingsystem.constants.LoanApplicationApiEndpointConstants;
 import com.intern.digitallendingsystem.dto.LoanApplicationDto;
 import com.intern.digitallendingsystem.service.LoanApplicationService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class LoanApplicationController {
     LoanApplicationService loanApplicationService;
 
     @PostMapping("api/loan-applications")
-    public ResponseEntity<LoanApplicationDto> createLoanApplication(@RequestBody LoanApplicationDto LoanApplicationDto){
+    public ResponseEntity<LoanApplicationDto> createLoanApplication(@Valid @RequestBody LoanApplicationDto LoanApplicationDto){
         return loanApplicationService.createLoanApplication(LoanApplicationDto);
     }
 

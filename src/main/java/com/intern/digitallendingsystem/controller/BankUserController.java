@@ -5,6 +5,7 @@ import com.intern.digitallendingsystem.constants.BankUserApiEndpointConstants;
 import com.intern.digitallendingsystem.dto.BankDto;
 import com.intern.digitallendingsystem.dto.BankUserDto;
 import com.intern.digitallendingsystem.service.BankUserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class BankUserController {
     BankUserService bankUserService;
 
     @PostMapping(BankUserApiEndpointConstants.BANK_USERS)
-    public ResponseEntity<BankUserDto> createBankUser(@RequestBody BankUserDto bankUserDto) {
+    public ResponseEntity<BankUserDto> createBankUser( @Valid @RequestBody BankUserDto bankUserDto) {
         return (bankUserService.createBankUser(bankUserDto));
     }
 
@@ -35,9 +36,7 @@ public class BankUserController {
     }
 
     @PutMapping(BankUserApiEndpointConstants.BANK_USER_ID)
-    public ResponseEntity<BankUserDto> updateBankUser(
-            @PathVariable long id,
-            @RequestBody BankUserDto bankUserDto
+    public ResponseEntity<BankUserDto> updateBankUser(@PathVariable long id, @Valid @RequestBody BankUserDto bankUserDto
     ){
         return bankUserService.updateBankUser(id, bankUserDto);
     }
