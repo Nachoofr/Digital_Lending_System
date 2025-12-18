@@ -1,5 +1,6 @@
 package com.intern.digitallendingsystem.controller;
 
+import com.intern.digitallendingsystem.constants.CustomerApiEndpointConstants;
 import com.intern.digitallendingsystem.dto.CustomerDto;
 import com.intern.digitallendingsystem.service.CustomerService;
 import lombok.AllArgsConstructor;
@@ -14,12 +15,12 @@ import java.util.List;
 public class CustomerController {
     CustomerService customerService;
 
-    @PostMapping("/api/customers")
+    @PostMapping(CustomerApiEndpointConstants.CUSTOMERS)
     public ResponseEntity<CustomerDto> createCustomer (@RequestBody CustomerDto customerDto) {
         return customerService.createCustomer(customerDto);
     }
 
-    @GetMapping("/api/customers")
+    @GetMapping(CustomerApiEndpointConstants.CUSTOMERS)
     public ResponseEntity<List<CustomerDto>> getAllCustomers(
             @RequestParam(required = false, defaultValue = "", name="sort")String sort
     ) {
@@ -27,12 +28,12 @@ public class CustomerController {
         return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
-    @GetMapping("api/customers/{id}")
+    @GetMapping(CustomerApiEndpointConstants.CUSTOMER_ID)
     public ResponseEntity<CustomerDto> getCustomerById(@PathVariable long id) {
         return customerService.getCustomerById(id);
     }
 
-    @PutMapping("api/customers/{id}")
+    @PutMapping(CustomerApiEndpointConstants.CUSTOMER_ID)
     public ResponseEntity<CustomerDto> updateCustomer(
             @PathVariable long id,
             @RequestBody CustomerDto customerDto
@@ -40,7 +41,7 @@ public class CustomerController {
        return customerService.updateCustomer(id, customerDto);
     }
 
-    @DeleteMapping("api/customers/{id}")
+    @DeleteMapping(CustomerApiEndpointConstants.CUSTOMER_ID)
     public ResponseEntity<Void> deleteCustomer(@PathVariable long id) {
         return customerService.deleteCustomer(id);
     }

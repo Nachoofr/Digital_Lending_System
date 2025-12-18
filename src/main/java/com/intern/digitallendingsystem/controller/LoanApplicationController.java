@@ -1,5 +1,6 @@
 package com.intern.digitallendingsystem.controller;
 
+import com.intern.digitallendingsystem.constants.LoanApplicationApiEndpointConstants;
 import com.intern.digitallendingsystem.dto.LoanApplicationDto;
 import com.intern.digitallendingsystem.service.LoanApplicationService;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ public class LoanApplicationController {
         return loanApplicationService.createLoanApplication(LoanApplicationDto);
     }
 
-    @GetMapping("api/loan-applications")//create a new dto and pass dto with post mapping
+    @GetMapping(LoanApplicationApiEndpointConstants.LOAN_APPLICATIONS)//create a new dto and pass dto with post mapping
     public ResponseEntity<List<LoanApplicationDto>> getAllLoanApplication(
         @RequestParam(required = false, defaultValue = "", name="status") String status,
         @RequestParam(required = false, defaultValue = "0", name="bankId") long bankId,
@@ -28,17 +29,17 @@ public class LoanApplicationController {
         return new ResponseEntity<>(loanApplications, HttpStatus.OK);
     }
 
-    @GetMapping("api/loan-applications/{id}")
+    @GetMapping(LoanApplicationApiEndpointConstants.LOAN_APPLICATION_ID)
     public ResponseEntity<LoanApplicationDto> getLoanApplicationById(@PathVariable Long id){
        return loanApplicationService.getLoanApplicationById(id);
     }
 
-    @PutMapping("api/loan-applications/{id}/approve" )//use post
+    @PutMapping(LoanApplicationApiEndpointConstants.APPROVE )//use post
     public ResponseEntity<LoanApplicationDto> approveLoanApplication(@PathVariable Long id){
         return loanApplicationService.approveLoanApplication(id);
     }
 
-    @PutMapping("api/loan-applications/{id}/reject" )
+    @PutMapping(LoanApplicationApiEndpointConstants.REJECT )
     public ResponseEntity<LoanApplicationDto> rejectLoanApplication(@PathVariable Long id){
         return loanApplicationService.rejectLoanApplication(id);
     }

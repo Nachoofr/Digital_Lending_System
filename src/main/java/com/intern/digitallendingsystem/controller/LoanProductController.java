@@ -1,5 +1,6 @@
 package com.intern.digitallendingsystem.controller;
 
+import com.intern.digitallendingsystem.constants.LoanProductApiEndpointConstants;
 import com.intern.digitallendingsystem.dto.LoanProductDto;
 import com.intern.digitallendingsystem.service.LoanProductService;
 import lombok.AllArgsConstructor;
@@ -14,25 +15,25 @@ import java.util.List;
 public class LoanProductController {
     LoanProductService loanProductService;
 
-    @PostMapping("api/loan-products")
+    @PostMapping(LoanProductApiEndpointConstants.LOAN_PRODUCTS)
     public ResponseEntity<LoanProductDto> createLoanProduct(@RequestBody LoanProductDto loanProductDto){
         return loanProductService.createLoanProduct(loanProductDto);
     }
 
 
-    @GetMapping("api/loan-products")
+    @GetMapping(LoanProductApiEndpointConstants.LOAN_PRODUCTS)
     public ResponseEntity<List<LoanProductDto>> getLoanProduct(
             @RequestParam(required = false, defaultValue = "", name="sort")String sort
     ){
         return new ResponseEntity<List<LoanProductDto>>(loanProductService.getAllLoanProducts(sort), HttpStatus.OK);
     }
 
-    @GetMapping("api/loan-products/{id}")
+    @GetMapping(LoanProductApiEndpointConstants.LOAN_PRODUCT_ID)
     public ResponseEntity<LoanProductDto> getLoanProductById(@PathVariable long id){
         return loanProductService.getLoanProductById(id);
     }
 
-    @PutMapping("api/loan-products/{id}")
+    @PutMapping(LoanProductApiEndpointConstants.LOAN_PRODUCT_ID)
     public ResponseEntity<LoanProductDto> updateLoanProduct(
             @PathVariable long id,
             @RequestBody LoanProductDto loanProductDto
@@ -40,7 +41,7 @@ public class LoanProductController {
        return loanProductService.updateLoanProduct(id, loanProductDto);
     }
 
-    @DeleteMapping("api/loan-products/{id}")
+    @DeleteMapping(LoanProductApiEndpointConstants.LOAN_PRODUCT_ID)
     public ResponseEntity<Void> deleteLoanProduct(@PathVariable long id){
         return loanProductService.deleteLoanProduct(id);
     }

@@ -1,5 +1,6 @@
 package com.intern.digitallendingsystem.controller;
 
+import com.intern.digitallendingsystem.constants.LoanRepaymentApiEndpointConstants;
 import com.intern.digitallendingsystem.dto.LoanRepaymentDto;
 import com.intern.digitallendingsystem.model.LoanRepayment;
 import com.intern.digitallendingsystem.service.LoanRepaymentService;
@@ -14,14 +15,14 @@ import java.util.List;
 public class LoanRepaymentController {
     LoanRepaymentService loanRepaymentService;
 
-    @PostMapping("/api/loan-applications/{id}/repayments")
+    @PostMapping(LoanRepaymentApiEndpointConstants.REPAYMENTS)
     public ResponseEntity<LoanRepaymentDto> makeRepayment(
             @PathVariable long id,
             @RequestBody LoanRepaymentDto loanRepaymentDto) {
         return loanRepaymentService.makeRepayment(id, loanRepaymentDto);
     }
 
-    @GetMapping("/api/loan-applications/{id}/repayments")
+    @GetMapping(LoanRepaymentApiEndpointConstants.REPAYMENTS)
     public ResponseEntity<List<LoanRepaymentDto>> getRepayments(@PathVariable long id) {
         return loanRepaymentService.getRepayments(id);
     }

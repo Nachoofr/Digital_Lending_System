@@ -1,5 +1,6 @@
 package com.intern.digitallendingsystem.controller;
 
+import com.intern.digitallendingsystem.constants.LoanDisbursementApiEndpointConstants;
 import com.intern.digitallendingsystem.dto.LoanDisbursementDto;
 import com.intern.digitallendingsystem.service.LoanDisbursementService;
 import lombok.AllArgsConstructor;
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoanDisbursementController {
     LoanDisbursementService loanDisbursementService;
 
-    @PostMapping("/api/loan-applications/{id}/disburse")
-    public ResponseEntity<LoanDisbursementDto> disbursLoan(@PathVariable long id, @RequestBody LoanDisbursementDto loanDisbursementDto) {
+    @PostMapping(LoanDisbursementApiEndpointConstants.DISBURSE)
+    public ResponseEntity<LoanDisbursementDto> disburseLoan(@PathVariable long id, @RequestBody LoanDisbursementDto loanDisbursementDto) {
         return loanDisbursementService.disburse(id, loanDisbursementDto);
     }
 }

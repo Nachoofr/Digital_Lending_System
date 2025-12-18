@@ -1,5 +1,7 @@
 package com.intern.digitallendingsystem.controller;
 
+import com.intern.digitallendingsystem.constants.BankApiEndpointConstants;
+import com.intern.digitallendingsystem.constants.BankUserApiEndpointConstants;
 import com.intern.digitallendingsystem.dto.BankDto;
 import com.intern.digitallendingsystem.dto.BankUserDto;
 import com.intern.digitallendingsystem.service.BankUserService;
@@ -15,24 +17,24 @@ public class BankUserController {
     @Autowired
     BankUserService bankUserService;
 
-    @PostMapping("api/bankUsers")
+    @PostMapping(BankUserApiEndpointConstants.BANK_USERS)
     public ResponseEntity<BankUserDto> createBankUser(@RequestBody BankUserDto bankUserDto) {
         return (bankUserService.createBankUser(bankUserDto));
     }
 
-    @GetMapping("api/bankUsers")
+    @GetMapping(BankUserApiEndpointConstants.BANK_USERS)
     public ResponseEntity<List<BankUserDto>> getAllBanks(
             @RequestParam(required = false, defaultValue = "", name = "sort") String sort
     ) {
         return new ResponseEntity<>(bankUserService.getAllBankUsers(sort), HttpStatus.OK);
     }
 
-    @GetMapping("api/bankUsers/{id}")
+    @GetMapping(BankUserApiEndpointConstants.BANK_USER_ID)
     public ResponseEntity<BankUserDto> getBankUser(@PathVariable long id) {
         return (bankUserService.getBankUserById(id));
     }
 
-    @PutMapping("api/bankUsers/{id}")
+    @PutMapping(BankUserApiEndpointConstants.BANK_USER_ID)
     public ResponseEntity<BankUserDto> updateBankUser(
             @PathVariable long id,
             @RequestBody BankUserDto bankUserDto
@@ -40,7 +42,7 @@ public class BankUserController {
         return bankUserService.updateBankUser(id, bankUserDto);
     }
 
-    @DeleteMapping("api/bankUsers/{id}")
+    @DeleteMapping(BankUserApiEndpointConstants.BANK_USER_ID)
     public ResponseEntity<Void> deleteBankUser(@PathVariable long id) {
         return bankUserService.deleteBankUser(id);
     }

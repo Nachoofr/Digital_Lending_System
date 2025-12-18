@@ -1,5 +1,6 @@
 package com.intern.digitallendingsystem.controller;
 
+import com.intern.digitallendingsystem.constants.BankApiEndpointConstants;
 import com.intern.digitallendingsystem.dto.BankDto;
 import com.intern.digitallendingsystem.model.Bank;
 import com.intern.digitallendingsystem.service.BankService;
@@ -17,24 +18,24 @@ public class BankController {
     @Autowired
     BankService bankService;
 
-    @PostMapping("/api/banks")
-    public ResponseEntity<BankDto> createBank(@RequestBody BankDto bankDto) {
-        bankService.createBank(bankDto);
-        return new ResponseEntity<>(bankDto, HttpStatus.CREATED);
-    }
-
-    @GetMapping("/api/banks")
+    @GetMapping(BankApiEndpointConstants.BANKS)
     public ResponseEntity<List<BankDto>> getAllBanks() {
         List<BankDto> banks = bankService.getAllBanks();
         return new ResponseEntity<>(banks, HttpStatus.OK);
     }
 
-    @GetMapping("/api/banks/{id}")
+    @PostMapping(BankApiEndpointConstants.BANKS)
+    public ResponseEntity<BankDto> createBank(@RequestBody BankDto bankDto) {
+        bankService.createBank(bankDto);
+        return new ResponseEntity<>(bankDto, HttpStatus.CREATED);
+    }
+
+    @GetMapping(BankApiEndpointConstants.BANK_ID)
     public ResponseEntity<BankDto> getBankById(@PathVariable long id) {
         return bankService.getBankById(id);
     }
 
-    @PutMapping("/api/banks/{id}")
+    @PutMapping(BankApiEndpointConstants.BANK_ID)
     public ResponseEntity<BankDto> updateBank(
             @PathVariable long id,
             @RequestBody BankDto bankDto
@@ -42,7 +43,7 @@ public class BankController {
         return bankService.updateBank(id, bankDto);
     }
 
-    @DeleteMapping("/api/banks/{id}")
+    @DeleteMapping(BankApiEndpointConstants.BANK_ID)
     public ResponseEntity<Void> deleteBank(@PathVariable long id) {
        return bankService.deleteBank(id);
     }
